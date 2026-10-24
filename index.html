@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snack Shack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fcfbf7;
+      --bg-alt: #f2efe9;
+      --text: #2b2b2b;
+      --muted: #5c5c5c;
+      --border: #dcd8d0;
+      --accent: #b85d3d;
+      --accent-hover: #9e4c2e;
+      --font-heading: "Fraunces", Georgia, "Times New Roman", serif;
+      --font-body: "Public Sans", "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      min-height: 100vh;
+      color: var(--text);
+      background-color: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1000px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      display: inline-block;
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding: 80px 0;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 90%;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-alt);
+      border-color: var(--muted);
+    }
+
+    .hero-photo {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Main Content Sections */
+    section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-heading {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Menu Controls */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 250px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background-color: #ffffff;
+      color: var(--text);
+    }
+
+    .search:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      padding: 8px 16px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      background-color: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .chip:hover {
+      border-color: var(--muted);
+    }
+
+    .chip.active {
+      background-color: var(--text);
+      color: #ffffff;
+      border-color: var(--text);
+    }
+
+    /* Menu Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 30px;
+    }
+
+    .snack-item {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .snack-image-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-alt);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .snack-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+    }
+
+    .snack-item h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .snack-item p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      flex-grow: 1;
+    }
+
+    .snack-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .price {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .add-btn {
+      background-color: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .add-btn:hover {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    /* Cart Panel */
+    .cart-panel {
+      margin-top: 50px;
+      padding: 24px;
+      background-color: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .cart-text {
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .cart-text strong {
+      font-weight: 700;
+    }
+
+    /* Info Sections */
+    .info-content {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .info-content h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .info-content p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%) translateY(100px);
+      padding: 12px 24px;
+      border-radius: 4px;
+      color: #ffffff;
+      background-color: var(--text);
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+      z-index: 20;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 60px 0;
+        text-align: center;
+      }
+
+      .hero p {
+        margin: 0 auto 32px;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filters {
+        justify-content: center;
+      }
+
+      .nav {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .snack-image-wrapper {
+        aspect-ratio: 16 / 9;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#top" aria-label="Snack Shack home">
+        <span class="logo-badge">🍿</span>
+        <span>Snack Shack</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#menu">Menu</a>
+        <a href="#how">How It Works</a>
+        <a href="#visit">Visit Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <div>
+        <h1>Snack Shack is a student snack business at a high school.</h1>
+        <p>
+          The menu and prices change every week, and the current list is kept on this page.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#menu">See the menu</a>
+          <a class="btn btn-secondary" href="#visit">Find us today</a>
+        </div>
+      </div>
+
+      <img
+        class="hero-photo"
+        src="images/hero.png"
+        alt="Snacks and drinks arranged on a table at Snack Shack"
+      />
+    </section>
+
+    <section id="menu" class="container">
+      <div class="section-heading">
+        <h2>The menu for this week.</h2>
+        <p>The list below shows the current snacks and prices.</p>
+      </div>
+
+      <div class="toolbar">
+        <input class="search" id="searchInput" type="search" placeholder="Search the list" aria-label="Search the list" />
+        <div class="filters" id="filters" aria-label="Category filters"></div>
+      </div>
+
+      <div class="grid" id="snackGrid"></div>
+
+      <div class="cart-panel" aria-live="polite">
+        <div class="cart-text">
+          <strong id="cartCount">0 items</strong> are on the list, and their prices add up to <strong id="cartTotal">$0.00</strong>.
+        </div>
+        <button class="btn btn-secondary" id="clearCart">Clear the list</button>
+      </div>
+    </section>
+
+    <section id="how" class="container">
+      <div class="section-heading">
+        <h2>How the page works.</h2>
+      </div>
+      <div class="info-content">
+        <h3>The list</h3>
+        <p>The menu section shows the snacks, their categories, and their prices. Selecting a snack adds its price to the total shown at the bottom of the menu.</p>
+        <h3>The pickup location</h3>
+        <p>The snacks are sold at the main quad during lunch hours.</p>
+      </div>
+    </section>
+
+    <section id="visit" class="container">
+      <div class="section-heading">
+        <h2>Where and when the snacks are sold.</h2>
+      </div>
+      <div class="info-content">
+        <p>The table is at the main quad during lunch hours, and payment is cash only.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Snack Shack is a student snack business at a high school.</div>
+  </footer>
+
+  <div class="toast" id="toast">The list has changed.</div>
+
+  <script>
+    const snacks = [
+      { name: "Doritos", category: "Chips", price: 1.25, image: "images/doritos.png", description: "A crunchy tortilla chip." },
+      { name: "Hot Cheetos", category: "Chips", price: 1.50, image: "images/hot-cheetos.png", description: "A crunchy snack with real heat." },
+      { name: "Takis", category: "Chips", price: 1.50, image: "images/takis.png", description: "Rolled tortilla chips with a spicy kick." },
+      { name: "KitKat", category: "Candy", price: 1.25, image: "images/kitkat.png", description: "Crispy wafer covered in milk chocolate." },
+      { name: "Reese's", category: "Candy", price: 1.25, image: "images/reese.png", description: "Peanut butter and chocolate cups." },
+      { name: "Skittles", category: "Candy", price: 1.25, image: "images/skittles.png", description: "Fruit-flavored chewy candy." },
+      { name: "Sour Patch Kids", category: "Candy", price: 1.25, image: "images/sourpatchkids.png", description: "Sour then sweet gummy candy." },
+      { name: "Trolli", category: "Candy", price: 1.25, image: "images/trolli.png", description: "Chewy gummy candy." }
+    ];
+
+    const categories = ["All", ...new Set(snacks.map(item => item.category))];
+    const snackGrid = document.getElementById("snackGrid");
+    const filters = document.getElementById("filters");
+    const searchInput = document.getElementById("searchInput");
+    const cartCount = document.getElementById("cartCount");
+    const cartTotal = document.getElementById("cartTotal");
+    const clearCart = document.getElementById("clearCart");
+    const toast = document.getElementById("toast");
+
+    let activeCategory = "All";
+    let cart = [];
+
+    function formatMoney(value) {
+      return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
+    }
+
+    function renderFilters() {
+      filters.innerHTML = categories.map(category => `
+        <button class="chip ${category === activeCategory ? "active" : ""}" data-category="${category}">${category}</button>
+      `).join("");
+    }
+
+    function renderSnacks() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      const filtered = snacks.filter(item => {
+        const matchesCategory = activeCategory === "All" || item.category === activeCategory;
+        const matchesSearch = [item.name, item.category, item.description].join(" ").toLowerCase().includes(searchTerm);
+        return matchesCategory && matchesSearch;
+      });
+
+      snackGrid.innerHTML = filtered.length
+        ? filtered.map((item) => `
+          <article class="snack-item">
+            <div class="snack-image-wrapper">
+              <img class="snack-image" src="${item.image}" alt="${item.name}" loading="lazy" />
+            </div>
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+            <div class="snack-bottom">
+              <span class="price">${formatMoney(item.price)}</span>
+              <button class="add-btn" data-name="${item.name}">Add</button>
+            </div>
+          </article>
+        `).join("")
+        : `<div style="grid-column: 1 / -1; text-align: center; padding: 40px 0; color: var(--muted);">
+             <h3>No results</h3>
+             <p>No snacks match this search or category.</p>
+           </div>`;
+    }
+
+    function updateCart() {
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const label = cart.length === 1 ? "1 item" : `${cart.length} items`;
+      cartCount.textContent = label;
+      cartTotal.textContent = formatMoney(total);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+    filters.addEventListener("click", event => {
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      renderFilters();
+      renderSnacks();
+    });
+
+    searchInput.addEventListener("input", renderSnacks);
+
+    snackGrid.addEventListener("click", event => {
+      const button = event.target.closest("button[data-name]");
+      if (!button) return;
+      const item = snacks.find(snack => snack.name === button.dataset.name);
+      cart.push(item);
+      updateCart();
+      showToast(`${item.name} was added to the list.`);
+    });
+
+    clearCart.addEventListener("click", () => {
+      cart = [];
+      updateCart();
+      showToast("The list was cleared.");
+    });
+
+    renderFilters();
+    renderSnacks();
+    updateCart();
+  </script>
+</body>
+</html>
